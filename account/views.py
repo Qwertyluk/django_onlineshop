@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib import messages
-from .forms import CreateUserForm
+from django.views.decorators.http import require_POST
+from .forms import CreateUserForm, EditUserForm, ChangePasswordForm
 
 # Create your views here.
 def registrationPage(request):
@@ -39,3 +40,33 @@ def loginPage(request):
 def logoutAction(request):
     logout(request)
     return redirect('index')
+
+def manage(request):
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance = request.user)
+
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Profile was changed successfully', extra_tags='editProfile')
+        else:
+            messages.add_message(request, messages.ERROR, 'Could not change profile', extra_tags='editProfile')
+        
+        return redirect('manage')
+    else:
+        editProfileForm = EditUserForm(instance = request.user)
+        editPasswordForm = ChangePasswordForm(user = request.user)
+        context = {'editProfileForm': editProfileForm, 'editPasswordForm': editPasswordForm}
+        return render(request, 'account/manage.html', context)
+
+def changePassword(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(data = request.POST, user = request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.add_message(request, messages.SUCCESS, 'Password was changed successfully', extra_tags='changePassword')
+        editProfileForm = EditUserForm(instance = request.user)
+        context = {'editProfileForm': editProfileForm, 'editPasswordForm': form}
+        return render(request, 'account/manage.html', context)
+    else:
+        return redirect('manage')

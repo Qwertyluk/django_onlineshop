@@ -1,0 +1,73 @@
+{% extends "template.html" %}
+
+{% block content %}
+<div style="width: 25%; margin:auto; margin-top: 10%;">
+  <h1 class="mb-5 text-center">Manage profile</h1>
+  <form method="POST" action="{% url 'manage' %}">
+    {% csrf_token %}
+
+    {% for field in editProfileForm %}
+      <div class="form-outline mb-4">
+        {{field}}
+        {{field.label}}
+        {% for error in field.errors %}
+          <p class="text-danger text-center">{{error}}</p>
+        {% endfor %}
+      </div>
+    {% endfor%}
+
+    {% for error in editProfileForm.non_field_errors %}
+      <p class="text-danger text-center">{{error}}</p>
+    {% endfor %}
+
+    {% for message in messages %}
+      {% if message.extra_tags == 'editProfile' %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <p class="text-success text-center">{{message}}</p>
+        {% else %}
+            <p class="text-danger text-center">{{message}}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    
+    <div class="col text-center">
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Change Profile</button>
+    </div>
+  </form>
+
+  <h1 class="mb-5 text-center" style="margin-top:20%;">Change Password</h1>
+  <form method="POST" action="{% url 'changePassword' %}">
+    {% csrf_token %}
+
+    {% for field in editPasswordForm %}
+      <div class="form-outline mb-4">
+        {{field}}
+        {{field.label}}
+        {% for error in field.errors %}
+          <p class="text-danger text-center">{{error}}</p>
+        {% endfor %}
+      </div>
+    {% endfor%}
+
+    {% for error in editPasswordForm.non_field_errors %}
+      <p class="text-danger text-center">{{error}}</p>
+    {% endfor %}
+
+    {% for message in messages %}
+      {% if message.extra_tags == 'changePassword' %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <p class="text-success text-center">{{message}}</p>
+        {% else %}
+            <p class="text-danger text-center">{{message}}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    
+    <div class="col text-center">
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Change Password</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
