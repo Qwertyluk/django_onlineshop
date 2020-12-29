@@ -2,17 +2,19 @@
 
 {% block content %}
 <div style="width: 25%; margin:auto; margin-top: 10%;">
-  <form>
-    <!-- Email input -->
+  <h1 class="mb-5 text-center">Login</h1>
+  <form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <!-- Username input -->
     <div class="form-outline mb-4">
-      <input type="email" id="form2Example1" class="form-control" />
-      <label class="form-label" for="form2Example1">Email address</label>
+      <input type="text" name="usernameForm" class="form-control" />
+      <label class="form-label" for="usernameForm">Username</label>
     </div>
   
     <!-- Password input -->
     <div class="form-outline mb-4">
-      <input type="password" id="form2Example2" class="form-control" />
-      <label class="form-label" for="form2Example2">Password</label>
+      <input type="password" name="passwordForm" class="form-control" />
+      <label class="form-label" for="passwordForm">Password</label>
     </div>
   
     <div class="col text-center">
@@ -20,6 +22,15 @@
       <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
     </div>
   
+    {% for message in messages %}
+      {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <p class="text-success text-center">{{message}}</p>
+      {% else %}
+        <p class="text-danger text-center">{{message}}</p>
+      {% endif %}
+      
+    {% endfor %}
+
     <!-- Register buttons -->
     <div class="text-center">
       <p>Not a member? <a href="/account/registration">Register</a></p>
