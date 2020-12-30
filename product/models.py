@@ -6,3 +6,5 @@ class Product(models.Model):
     Price = models.DecimalField(max_digits=19, decimal_places=2)
     Description = models.CharField(max_length=10000)
     Picture = models.CharField(max_length=300)
+    IsOnSale = models.BooleanField()
+    IsAvailable = models.BooleanField()

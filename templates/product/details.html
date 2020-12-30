@@ -17,7 +17,12 @@
             <div class="col-md-6">
                 <h5>{{product.Name}}</h5>
                 <p class="mb-2 text-muted text-uppercase small">{{product.Category}}</p>
-                <p><strong>${{product.Price}}</strong></span></p>
+                {% if product.IsOnSale %}
+                    <p class="text-success"><strong>Discount ${{product.Price}}</strong></span></p>
+                {% else %}
+                    <p><strong>${{product.Price}}</strong></span></p>
+                {% endif %}
+               
                 <p class="pt-1">{{product.Description}}</p>
                 <hr>
 
@@ -27,8 +32,11 @@
                 </div>
                 <hr>
                 
-                <button type="button" class="btn btn-primary mr-1 mb-2">Buy now</button>
-                <button type="button" class="btn btn-light mr-1 mb-2">Add to cart</button>
+                {% if product.IsAvailable %}
+                    <button type="button" class="btn btn-primary mr-1 mb-2">Add to cart</button>
+                {% else %}
+                <button type="button" class="btn btn-primary mr-1 mb-2" disabled>Sold</button>
+                {% endif %}
             </div>
         </div>
   </section>
