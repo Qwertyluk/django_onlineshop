@@ -11,11 +11,8 @@
           <!-- Card -->
           <div class="">
             <div class="view zoom overlay z-depth-2 rounded" style="height: 400px;">
-              <a href="#!">
-                  <!--<img class="img-fluid w-100"
-                    src="{% static 'images/product1.jpg' %}" alt="Sample">-->
-                  <img class="img-fluid w-100 h-100"
-                    src="{% static product.Picture %}" alt="Sample" >
+              <a href="{% url 'productDetails' product.id %}">
+                  <img class="img-fluid w-100 h-100" src="{% static product.Picture %}" alt="Sample" >
               </a>
             </div>
             <div class="text-center pt-4">
