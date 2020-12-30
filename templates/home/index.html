@@ -1,5 +1,39 @@
 {% extends "template.html" %}
-
+{% load static %}
 {% block content %}
-
+<!--Section: Block Content-->
+<section style="margin-top: 10%;">
+    <!-- Grid row -->
+    <div class="row">
+      {% for product in products %}
+        <!-- Grid column -->
+        <div class="col-md-6 col-lg-4 mb-5">
+          <!-- Card -->
+          <div class="">
+            <div class="view zoom overlay z-depth-2 rounded" style="height: 400px;">
+              <a href="#!">
+                  <!--<img class="img-fluid w-100"
+                    src="{% static 'images/product1.jpg' %}" alt="Sample">-->
+                  <img class="img-fluid w-100 h-100"
+                    src="{% static product.Picture %}" alt="Sample" >
+              </a>
+            </div>
+            <div class="text-center pt-4">
+              <h5>{{product.Name}}</h5>
+              <p class="mb-2 text-muted text-uppercase small">{{product.Category}}</p>
+              <hr>
+              <h6 class="mb-3">{{product.Price}} $</h6>
+              <button type="button" class="btn btn-primary btn-sm mr-1 mb-2"><i
+                  class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
+              <button type="button" class="btn btn-light btn-sm mr-1 mb-2"><i
+                  class="fas fa-info-circle pr-2"></i>Details</button>
+            </div>
+          </div>
+        <!-- Card -->
+        </div>
+      {% endfor %}
+    </div>
+    <!-- Grid row -->
+  </section>
+  <!--Section: Block Content-->
 {% endblock %}
