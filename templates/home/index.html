@@ -3,8 +3,28 @@
 {% block content %}
 <!--Section: Block Content-->
 <section style="margin-top: 10%;">
+  <form method="POST" action="{% url 'index' %}">
+    {% csrf_token %}
+    <div class="row p-2 b-3 border rounded ">
+      <div class="col-lg-7 mb-1 mt-1">
+        {{form.filterChoice}}
+      </div>
+      <div class="col-lg d-flex justify-content-center align-items-center mb-1 mt-1">
+        {{form.isOnSale}}
+        <label class="form-check-label" for="isOnSale">Wyprzedaż</label>
+      </div>
+      <div class="col-lg d-flex justify-content-center align-items-center mb-1 mt-1">
+        {{form.isAvailable}}
+        <label class="form-check-label">Dostępne</label>
+      </div>
+      <div class="col-sm text-center mb-1 mt-1">
+        <button type="submit" class="btn btn-primary">Filtruj</button>
+      </div>
+    </div>
+  </form>
+
     <!-- Grid row -->
-    <div class="row">
+    <div class="row" style="margin-top: 10%;">
       {% for product in products %}
         <!-- Grid column -->
         <div class="col-md-6 col-lg-4 mb-5">

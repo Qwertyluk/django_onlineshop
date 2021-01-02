@@ -8,3 +8,17 @@ class Product(models.Model):
     Picture = models.CharField(max_length=300)
     IsOnSale = models.BooleanField()
     IsAvailable = models.BooleanField()
+
+FILTER_CHOICES = (
+    ('Name', 'Rosnąco po nazwie'),
+    ('-Name', 'Malejąco po nazwie'),
+    ('Price', 'Rosnąco po cenie'),
+    ('-Price', 'Malejąco po cenie'),
+    ('Category', 'Rosnąco po kategorii'),
+    ('-Category', 'Malejąco po kategorii')
+)
+
+class FilterProduct(models.Model):
+    filterChoice = models.CharField(max_length=25 ,choices=FILTER_CHOICES, default='Name')
+    isOnSale = models.BooleanField()
+    isAvailable = models.BooleanField()
