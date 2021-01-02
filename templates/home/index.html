@@ -45,11 +45,11 @@
                 <h6 class="mb-3">{{product.Price}} $</h6>
               {% endif %}
               {% if product.IsAvailable %}
-                <button type="button" class="btn btn-primary btn-sm mb-2">Add to cart</button>
+                <a type="button" class="btn btn-primary btn-sm mb-2" href="{% url 'cart' %}">Add to cart</a>
               {% else %}
                 <button type="button" class="btn btn-primary btn-sm mb-2" disabled>Sold</button>
               {% endif %}
-              <a type="button" class="btn btn-light btn-sm mb-2" href="{% url 'productDetails' product.id %}">Details</a>
+                <a type="button" class="btn btn-light btn-sm mb-2" href="{% url 'productDetails' product.id %}">Details</a>
               {% if product.IsOnSale %}
                 <a type="button" class="btn btn-success btn-sm mb-2" href="{% url 'productDetails' product.id %}">Discount</a>
               {% endif %}
