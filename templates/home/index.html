@@ -1,6 +1,7 @@
 {% extends "template.html" %}
 {% load static %}
 {% block content %}
+<a class="btn btn-danger" href="{% url 'cleanSession' %}">Clean session</a>
 <!--Section: Block Content-->
 <section style="margin-top: 10%;">
   <form method="POST" action="{% url 'index' %}">
@@ -45,7 +46,7 @@
                 <h6 class="mb-3">{{product.Price}} $</h6>
               {% endif %}
               {% if product.IsAvailable %}
-                <a type="button" class="btn btn-primary btn-sm mb-2" href="{% url 'cart' %}">Add to cart</a>
+                <a type="button" class="btn btn-primary btn-sm mb-2" href="{% url 'addToCart' product.id 1 %}">Add to cart</a>
               {% else %}
                 <button type="button" class="btn btn-primary btn-sm mb-2" disabled>Sold</button>
               {% endif %}

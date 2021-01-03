@@ -33,12 +33,21 @@
                 <hr>
                 
                 {% if product.IsAvailable %}
-                    <button type="button" class="btn btn-primary mr-1 mb-2">Add to cart</button>
+                    <!--<a type="button" class="btn btn-primary mr-1 mb-2" onclick="this.href='/cart/addToCart/{{product.id}}-'+document.getElementById('typeNumber').value">Add to cart</a>-->
+                    <a type="button" class="btn btn-primary mr-1 mb-2" id="addToCart" onclick="addToCart()">Add to cart</a>
                 {% else %}
-                <button type="button" class="btn btn-primary mr-1 mb-2" disabled>Sold</button>
+                    <button type="button" class="btn btn-primary mr-1 mb-2" disabled>Sold</button>
                 {% endif %}
             </div>
         </div>
   </section>
   <!--Section: Block Content-->
+
+    <script>
+        function addToCart(){
+            var a = document.getElementById('addToCart');
+            a.href = "{% url 'addToCart' product.id 9999 %}".replace(/9999/, document.getElementById('typeNumber').value);
+        }
+    </script>
 {% endblock %}
+
