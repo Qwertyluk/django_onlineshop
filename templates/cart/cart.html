@@ -1,6 +1,7 @@
 {% extends "template.html" %}
 
 {% load static %}
+{% load filters %}
 
 {% block content %}
 <!--Section: Block Content-->
@@ -12,30 +13,30 @@
         <div class="col-lg-8">
             <div class="mb-3">
                 <div class="pt-4">
-                    <h5 class="mb-4">Koszyk (<span>X</span> produktów)</h5>
+                    <h5 class="mb-4">Koszyk (<span>{{cartItems|getProductNum}}</span> produktów)</h5>
                     {% for item in cartItems %}
-                    {{ item|get_item:'product' }}
-                    {{ item }}
                     <div class="row mb-4">
                         <div class="col-md-5 col-lg-3 col-xl-3 mb-3">
-                            <img class="w-100" src="test" alt="cartItem">
+                            <img class="w-100" src="{% static item|fromDictGetItemAttribute:'product,Picture' %}" alt="cartItem">
                         </div>
                         <div class="col-md-7 col-lg-9 col-xl-9">
                             <div class="d-flex justify-content-between mb-3">
                                 <div>
-                                    <h5>Nazwa produktu</h5>
-                                    <p class="mb-3 text-muted text-uppercase small">Kategoria produktu</p>
+                                    <h5>{{item|fromDictGetItemAttribute:'product,Name'}}</h5>
+                                    <p class="mb-3 text-muted text-uppercase small">{{item|fromDictGetItemAttribute:'product,Category'}}</p>
                                 </div>
                                 <div>
-                                    <input class="form-control text-center" min="0" name="quantity" value="1"
-                                        type="number">
+                                    <input class="form-control text-center" id="productQuantity{{item|fromDictGetItemAttribute:'product,id'}}" min="0" name="quantity" 
+                                        value="{{item|fromDictGetItemValue:'quantity'}}" type="number" 
+                                        onblur="productQuantityChanged({{item|fromDictGetItemAttribute:'product,id'}})">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <a type="button" class="btn btn-danger btn-sm mr-1" href="#">Remove item</a>
+                                    <a type="button" class="btn btn-danger btn-sm mr-1" 
+                                        href="{% url 'removeFromCart' item|fromDictGetItemAttribute:'product,id' %}">Remove item</a>
                                 </div>
-                                <p class="mb-0"><span><strong>$17.99</strong></span></p>
+                                <p class="mb-0"><span><strong>${{item|calculateCartItemValue}}</strong></span></p>
                             </div>
                         </div>
                     </div>
@@ -56,18 +57,18 @@
                         <li
                             class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                             Koszt koszyka
-                            <span>$25.98</span>
+                            <span>${{cartItems|calculateCartValue}}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                             Dostawa
-                            <span>$5.00</span>
+                            <span>${{deliveryCost}}</span>
                         </li>
                         <li
                             class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                             <div>
                                 <strong>Całkowity koszt zamówienia</strong>
                             </div>
-                            <span><strong>$53.98</strong></span>
+                            <span><strong>${{cartItems|calculateCartFinalValue:deliveryCost}}</strong></span>
                         </li>
                     </ul>
                     <button type="button" class="btn btn-primary btn-block">Zamawiam</button>
@@ -88,4 +89,12 @@
 
 </section>
 <!--Section: Block Content-->
+
+<script>
+    function productQuantityChanged(id){
+        inputId = "productQuantity" + id;
+        quantity = document.getElementById(inputId).value
+        window.location.href = "{% url 'updateCartItemQuantity' 9999 9998%}".replace(/9999/, id).replace(/9998/, quantity);
+    }
+</script>
 {% endblock %}

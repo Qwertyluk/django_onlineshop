@@ -33,7 +33,6 @@
                 <hr>
                 
                 {% if product.IsAvailable %}
-                    <!--<a type="button" class="btn btn-primary mr-1 mb-2" onclick="this.href='/cart/addToCart/{{product.id}}-'+document.getElementById('typeNumber').value">Add to cart</a>-->
                     <a type="button" class="btn btn-primary mr-1 mb-2" id="addToCart" onclick="addToCart()">Add to cart</a>
                 {% else %}
                     <button type="button" class="btn btn-primary mr-1 mb-2" disabled>Sold</button>
@@ -45,8 +44,14 @@
 
     <script>
         function addToCart(){
-            var a = document.getElementById('addToCart');
-            a.href = "{% url 'addToCart' product.id 9999 %}".replace(/9999/, document.getElementById('typeNumber').value);
+            quantity = document.getElementById('typeNumber').value;
+            if(quantity > 0){
+                var a = document.getElementById('addToCart');
+                a.href = "{% url 'addToCart' product.id 9999 %}".replace(/9999/, document.getElementById('typeNumber').value);
+            }
+            else{
+                window.alert("The number of products must be positive.");
+            }
         }
     </script>
 {% endblock %}

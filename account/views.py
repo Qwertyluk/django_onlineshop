@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .forms import CreateUserForm, EditUserForm, ChangePasswordForm
 
@@ -37,10 +38,12 @@ def loginPage(request):
     context = {}
     return render(request, 'account/login.html', context)
 
+@login_required(login_url='login')
 def logoutAction(request):
     logout(request)
     return redirect('index')
 
+@login_required(login_url='login')
 def manage(request):
     if request.method == 'POST':
         form = EditUserForm(request.POST, instance = request.user)
@@ -58,6 +61,7 @@ def manage(request):
         context = {'editProfileForm': editProfileForm, 'editPasswordForm': editPasswordForm}
         return render(request, 'account/manage.html', context)
 
+@login_required(login_url='login')
 def changePassword(request):
     if request.method == 'POST':
         form = ChangePasswordForm(data = request.POST, user = request.user)
