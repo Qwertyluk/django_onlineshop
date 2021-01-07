@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from product.models import Product
-from .models import DeliveryAddress, Order, OrderElement
-from .forms import DeliveryAddressForm
+from order.models import DeliveryAddress, Order, OrderElement
+from order.forms import DeliveryAddressForm
 
 # Create your views here.
 @login_required(login_url='login')

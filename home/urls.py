@@ -1,7 +1,6 @@
 from django.urls import path
-from .views import index, displayOrders
+from .views import index
 
 urlpatterns = [
     path('', index, name='index'),
-    path('orders', displayOrders, name='displayOrders')
 ]
