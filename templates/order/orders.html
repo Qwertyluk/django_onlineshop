@@ -11,6 +11,8 @@
                     <th scope="col">Delivery Address</th>
                     <th scope="col">Order Elements</th>
                     <th scope="col">Total Price</th>
+                    <th scope="col">Modification</th>
+                    <th scope="col">Creation</th>
                     <th scope="col">Confirmation</th>
                 </tr>
             </thead>
@@ -59,6 +61,14 @@
                             </table>
                         </td>
                         <td>{{order|calculateTotalOrderPrice}}$</td>
+                        <td>
+                            {{order.updated_at|date:"H:i"}}<br>
+                            {{order.updated_at|date:"d M Y"}}
+                        </td>
+                        <td>
+                            {{order.created_at|date:"H:i"}}<br>
+                            {{order.created_at|date:"d M Y"}}
+                        </td>
                         <td>
                             {% if order.isConfirmed %}
                             <span class="rounded text-light bg-success d-block mb-1">Confirmed</span>

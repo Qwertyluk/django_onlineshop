@@ -1,5 +1,6 @@
 from django.db import models
 from product.models import Product
+from .infrastructure.modeldate import ModelDate
 
 # Create your models here.
 class DeliveryAddress(models.Model):
@@ -7,7 +8,7 @@ class DeliveryAddress(models.Model):
     lastName = models.CharField(max_length=150, blank=False)
     email = models.EmailField(blank=False)
 
-class Order(models.Model):
+class Order(ModelDate):
     deliveryAddress = models.ForeignKey(DeliveryAddress, on_delete=models.DO_NOTHING)
     isConfirmed = models.BooleanField(default=False)
 
