@@ -9,6 +9,7 @@ class DeliveryAddress(models.Model):
 
 class Order(models.Model):
     deliveryAddress = models.ForeignKey(DeliveryAddress, on_delete=models.DO_NOTHING)
+    isConfirmed = models.BooleanField(default=False)
 
 class OrderElement(models.Model):
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)

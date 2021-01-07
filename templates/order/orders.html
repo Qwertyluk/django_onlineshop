@@ -4,13 +4,14 @@
 <section style="margin-top:10%">
     {% if orders|length > 0 %}
     <div class="table-responsive-xxl">
-        <table class="table table-bordered" style="margin-top:10%">
+        <table class="table table-bordered text-center" style="margin-top:10%">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Delivery Address</th>
                     <th scope="col">Order Elements</th>
                     <th scope="col">Total Price</th>
+                    <th scope="col">Confirmation</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,6 +59,15 @@
                             </table>
                         </td>
                         <td>{{order|calculateTotalOrderPrice}}$</td>
+                        <td>
+                            {% if order.isConfirmed %}
+                            <span class="rounded text-light bg-success d-block mb-1">Confirmed</span>
+                            <a class="btn btn-danger" href="{% url 'changeOrderConfirmation' order.id %}">Cancel</a>
+                            {% else %}
+                            <span class="rounded text-light bg-danger d-block mb-1">Not Confirmed</span>
+                            <a class="btn btn-success" href="{% url 'changeOrderConfirmation' order.id %}">Confirm</a>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
