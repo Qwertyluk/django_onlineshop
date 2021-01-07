@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from product.models import Product, FILTER_CHOICES
 from product.forms import FilterForm
+from cart.models import Order
 
 # Create your views here.
 def index(request):
@@ -22,3 +23,11 @@ def index(request):
     form = FilterForm()
     context = {'products': products, 'form': form}
     return render(request, 'home/index.html', context)
+
+def displayOrders(request):
+    orders = Order.objects.all()
+    #for order in orders:
+    #    print(dir(order))
+    #    print(getattr(order, 'orderelement_set'))
+    context = {'orders': orders}
+    return render(request, 'home/orders.html', context)

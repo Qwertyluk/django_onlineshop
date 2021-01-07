@@ -25,7 +25,7 @@
                   {% if user.is_authenticated %}
                   {% if user.is_staff %}
                     <li class="nav-item">
-                      <a class="nav-link" href="{% url 'viewCart' %}">Orders</a>
+                      <a class="nav-link" href="{% url 'displayOrders' %}">Orders</a>
                     </li>
                   {% endif %}
                     <li class="nav-item">

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from product.models import Product
 from .models import DeliveryAddress, Order, OrderElement
 from .forms import DeliveryAddressForm
@@ -93,6 +94,10 @@ def confirmOrder(request):
                         product = get_object_or_404(Product, id = cartItem['id'])
                         orderElement = OrderElement(product = product, quantity = cartItem['quantity'], order = order)
                         orderElement.save()
+
+                    messages.add_message(request, messages.SUCCESS, 'Order has been accepted')
+                    del request.session['cartItems']
+                    return redirect('index')
     
     return redirect('viewCart')
 
