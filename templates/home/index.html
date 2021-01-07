@@ -11,11 +11,11 @@
       </div>
       <div class="col-lg d-flex justify-content-center align-items-center mb-1 mt-1">
         {{form.isOnSale}}
-        <label class="form-check-label" for="isOnSale">Wyprzedaż</label>
+        {{form.isOnSale.label}}
       </div>
-      <div class="col-lg d-flex justify-content-center align-items-center mb-1 mt-1">
+      <div class="col-lg-2 d-flex justify-content-center align-items-center mb-1 mt-1">
         {{form.isAvailable}}
-        <label class="form-check-label">Dostępne</label>
+        {{form.isAvailable.label}}
       </div>
       <div class="col-sm text-center mb-1 mt-1">
         <button type="submit" class="btn btn-primary">Filtruj</button>

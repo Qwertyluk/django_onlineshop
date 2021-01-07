@@ -1,3 +1,16 @@
 from django.db import models
+from product.models import Product
 
 # Create your models here.
+class DeliveryAddress(models.Model):
+    firstName = models.CharField(max_length=150, blank=False)
+    lastName = models.CharField(max_length=150, blank=False)
+    email = models.EmailField(blank=False)
+
+class Order(models.Model):
+    deliveryAddress = models.ForeignKey(DeliveryAddress, on_delete=models.DO_NOTHING)
+
+class OrderElement(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    quantity = models.IntegerField()
+    order = models.ForeignKey(Order, on_delete=models.DO_NOTHING)

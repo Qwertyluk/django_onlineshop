@@ -10,12 +10,12 @@ class Product(models.Model):
     IsAvailable = models.BooleanField()
 
 FILTER_CHOICES = (
-    ('Name', 'Rosnąco po nazwie'),
-    ('-Name', 'Malejąco po nazwie'),
-    ('Price', 'Rosnąco po cenie'),
-    ('-Price', 'Malejąco po cenie'),
-    ('Category', 'Rosnąco po kategorii'),
-    ('-Category', 'Malejąco po kategorii')
+    ('Name', 'Name ascending'),
+    ('-Name', 'Name descending'),
+    ('Price', 'Price ascending'),
+    ('-Price', 'Price descending'),
+    ('Category', 'Category ascending'),
+    ('-Category', 'Category descending')
 )
 
 class FilterProduct(models.Model):

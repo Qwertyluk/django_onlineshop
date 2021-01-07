@@ -13,7 +13,7 @@
         <div class="col-lg-8">
             <div class="mb-3">
                 <div class="pt-4">
-                    <h5 class="mb-4">Koszyk (<span>{{cartItems|getProductNum}}</span> produktów)</h5>
+                    <h5 class="mb-4">Cart (<span>{{cartItems|getProductNum}}</span> items)</h5>
                     {% for item in cartItems %}
                     <div class="row mb-4">
                         <div class="col-md-5 col-lg-3 col-xl-3 mb-3">
@@ -52,26 +52,36 @@
             <!-- Card -->
             <div class="mb-3">
                 <div class="pt-4">
-                    <h5 class="mb-3">Podsumowanie koszyka</h5>
+                    <h5 class="mb-3">The total amount of</h5>
                     <ul class="list-group list-group-flush">
                         <li
                             class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                            Koszt koszyka
+                            Temporary amount
                             <span>${{cartItems|calculateCartValue}}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                            Dostawa
+                            Shipping
                             <span>${{deliveryCost}}</span>
                         </li>
                         <li
                             class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                             <div>
-                                <strong>Całkowity koszt zamówienia</strong>
+                                <strong>The total amount of</strong>
                             </div>
                             <span><strong>${{cartItems|calculateCartFinalValue:deliveryCost}}</strong></span>
                         </li>
                     </ul>
-                    <button type="button" class="btn btn-primary btn-block">Zamawiam</button>
+                    <form class="mt-5" method="POST" action="{% url 'confirmOrder' %}">
+                        {% csrf_token %}
+                        <h5 class="mb-4">Delivary address</h5>
+                        {% for field in deliveryAddressForm %}
+                            {{field.label}}
+                            {{field}}
+                        {% endfor %}
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-block" onclick="return confirmOrder()">Potwierdź zamówienie</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <!-- Card -->
@@ -95,6 +105,16 @@
         inputId = "productQuantity" + id;
         quantity = document.getElementById(inputId).value
         window.location.href = "{% url 'updateCartItemQuantity' 9999 9998%}".replace(/9999/, id).replace(/9998/, quantity);
+    }
+
+    function confirmOrder(){
+        var agree = confirm("Are you sure you wish to confirm the order?");
+        if(agree){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 </script>
 {% endblock %}
