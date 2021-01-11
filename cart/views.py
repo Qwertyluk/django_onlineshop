@@ -75,29 +75,3 @@ def updateCartItemQuantity(request, id, quantity):
                 break
     return redirect('viewCart')
 
-@login_required(login_url='login')
-def confirmOrder(request):
-    if request.method == 'POST':
-        if request.session.has_key('cartItems'):
-            sessionCartItems = request.session['cartItems']
-            if len(sessionCartItems) > 0:
-                form = DeliveryAddressForm(request.POST)
-                if form.is_valid():
-                    firstName = form.cleaned_data['firstName']
-                    lastName = form.cleaned_data['lastName']
-                    email = form.cleaned_data['email']
-                    deliveryAddress = DeliveryAddress(firstName = firstName, lastName = lastName, email = email)
-                    deliveryAddress.save()
-                    order = Order(deliveryAddress = deliveryAddress)
-                    order.save()
-                    for cartItem in sessionCartItems:
-                        product = get_object_or_404(Product, id = cartItem['id'])
-                        orderElement = OrderElement(product = product, quantity = cartItem['quantity'], order = order)
-                        orderElement.save()
-
-                    messages.add_message(request, messages.SUCCESS, 'Order has been accepted')
-                    del request.session['cartItems']
-                    return redirect('index')
-    
-    return redirect('viewCart')
-
