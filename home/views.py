@@ -5,6 +5,21 @@ from order.models import Order
 
 # Create your views here.
 def index(request):
+    """
+    Home page - displays all products and filter form.
+
+    **Context**
+
+    ``products``
+        All products in the system.
+
+    ``form``
+        Instance of the filtering form.
+
+    **Template:**
+
+    :template:`home/index.html`
+    """
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():

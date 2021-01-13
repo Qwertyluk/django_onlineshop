@@ -12,6 +12,19 @@ from product.models import Product
 # Create your views here.
 @login_required(login_url='login')
 def displayOrders(request):
+    """
+    Displays each order confirmed by users.
+
+    **Context**
+
+    ``orders``
+        All orders confirmed by users.
+
+    **Template:**
+
+    If user is staff then returns :template:`order/orders.html`.
+    If user is not staff then redirets to the index endpoint.
+    """
     if request.user.is_staff:
         orders = Order.objects.all()
         context = {'orders': orders}
@@ -22,6 +35,14 @@ def displayOrders(request):
 
 @login_required(login_url='login')
 def changeOrderConfirmation(request, id):
+    """
+    Change the confirmation state of the order with the specified id.
+
+    **Template:**
+
+    If user is staff then redirects displayOrders endpoint.
+    If user is not staff then redirets to the index endpoint.
+    """
     if request.user.is_staff:
         order = get_object_or_404(Order, id = id)
         order.isConfirmed = not order.isConfirmed
@@ -33,6 +54,14 @@ def changeOrderConfirmation(request, id):
 
 @login_required(login_url='login')
 def confirmOrder(request):
+    """
+    Confirms users orders.
+
+    **Template:**
+
+    If the confirmation is success then redirects to the index endpoint.
+    If the confirmation is not succes then redirect to the cart endpoint.
+    """
     if request.method == 'POST':
         if request.session.has_key('cartItems'):
             sessionCartItems = request.session['cartItems']

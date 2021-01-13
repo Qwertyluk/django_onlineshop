@@ -7,6 +7,18 @@ from .forms import CreateUserForm, EditUserForm, ChangePasswordForm
 
 # Create your views here.
 def registrationPage(request):
+    """
+    Display a registration page and handle user registration.
+
+    **Context**
+
+    ``form``
+        An instance of registration form.
+
+    **Template:**
+
+    :template:`account/registration.html`
+    """
     if request.user.is_authenticated:
         return redirect('index')
 
@@ -22,6 +34,13 @@ def registrationPage(request):
     return render(request, 'account/registration.html', context)
 
 def loginPage(request):
+    """
+    Display a login page and handle user login.
+
+    **Template:**
+
+    :template:`account/login.html`
+    """
     if request.user.is_authenticated:
         return redirect('index')
 
@@ -40,11 +59,33 @@ def loginPage(request):
 
 @login_required(login_url='login')
 def logoutAction(request):
+    """
+    Logout a user.
+
+    **Template:**
+    
+    Redirects to the index endpoint.
+    """
     logout(request)
     return redirect('index')
 
 @login_required(login_url='login')
 def manage(request):
+    """
+    Displays a user personal iformation management page and handles for managing a user personal information.
+
+    **Context**
+
+    ``editProfileForm``
+        An instance of a form to manage user personal information.
+
+    ``editPasswordForm``
+        An instance of a form to change a user password.
+
+    **Template:**
+
+    :template:`account/manage.html`
+    """
     if request.method == 'POST':
         form = EditUserForm(request.POST, instance = request.user)
 
@@ -63,6 +104,14 @@ def manage(request):
 
 @login_required(login_url='login')
 def changePassword(request):
+    """
+    Change user password.
+
+    **Template:**
+
+    If success - redirects to the manage endpoint.
+    If not success - renders the :template:`account/manage.html`
+    """
     if request.method == 'POST':
         form = ChangePasswordForm(data = request.POST, user = request.user)
         if form.is_valid():

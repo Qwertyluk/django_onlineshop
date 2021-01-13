@@ -8,6 +8,13 @@ from order.forms import DeliveryAddressForm
 # Create your views here.
 @login_required(login_url='login')
 def addToCart(request, id, quantity):
+    """
+    Adds an element with the specified id to the cart.
+
+    **Template:**
+
+    Redirects to the viewCart endpoint
+    """
     product = get_object_or_404(Product, id = id)
     if product.IsAvailable:
         if request.session.has_key('cartItems'):
@@ -27,6 +34,24 @@ def addToCart(request, id, quantity):
 
 @login_required(login_url='login')
 def viewCart(request):
+    """
+    Displays all elements existed in the cart.
+
+    **Context**
+
+    ``cartItems``
+        An array of key-value pairs. It contains products and the corresponding quantities of products.
+
+    ``deliveryCost``
+        The shipping cost.
+
+    ``deliveryAddressForm``
+        Instance of the delivery address form.
+
+    **Template:**
+
+    :template:`cart/cart.html`
+    """
     if request.session.has_key('cartItems'):
         cartItems = []
         sessionCartItems = request.session['cartItems']
@@ -52,6 +77,13 @@ def viewCart(request):
 
 @login_required(login_url='login')
 def removeFromCart(request, id):
+    """
+    Removes an item with the specified id from the cart.
+
+    **Template:**
+
+    Redirects to the "viewCart" endpoint.
+    """
     if request.session.has_key('cartItems'):
         cartItems = request.session['cartItems']
         index = 0
@@ -66,6 +98,13 @@ def removeFromCart(request, id):
 
 @login_required(login_url='login')
 def updateCartItemQuantity(request, id, quantity):
+    """
+    Updates the quantity of the product with the specified id.
+
+    **Template:**
+
+    Redirects to the "viewCart" endpoint.
+    """
     if request.session.has_key('cartItems'):
         cartItems = request.session['cartItems']
         for cartItem in cartItems:

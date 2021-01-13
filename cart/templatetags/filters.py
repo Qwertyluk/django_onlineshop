@@ -4,6 +4,9 @@ from decimal import *
 
 @register.filter
 def fromDictGetItemAttribute(dictionary, itemAttribute):
+    """
+    Returns the attribute of a dictionary element. The element and attribute name are provided as the second parameter and are separeted by a comma.
+    """
     itemAttribute = itemAttribute.split(',')
     item = dictionary.get(itemAttribute[0])
     if hasattr(item, itemAttribute[1]):
@@ -13,16 +16,25 @@ def fromDictGetItemAttribute(dictionary, itemAttribute):
 
 @register.filter
 def fromDictGetItemValue(dictionary, itemName):
+    """
+    Returns an item from the dictionary.
+    """
     return dictionary.get(itemName)
 
 @register.filter
 def calculateCartItemValue(dictionary):
+    """
+    Returns the cart element value. 
+    """
     product = dictionary.get('product')
     quantity = dictionary.get('quantity')
     return product.Price * quantity
 
 @register.filter
 def getProductNum(list):
+    """
+    Returns the quantity of products in the list.
+    """
     quantity = 0
     for item in list:
         quantity = quantity + item.get('quantity')
@@ -30,6 +42,9 @@ def getProductNum(list):
 
 @register.filter
 def calculateCartValue(list):
+    """
+    Calculates the total price of the order's elements.
+    """
     value = 0
     for item in list:
         product = item.get('product')
@@ -38,4 +53,7 @@ def calculateCartValue(list):
 
 @register.filter
 def calculateCartFinalValue(list, deliveryCost):
+    """
+    Calculates the total price of the order. 
+    """
     return calculateCartValue(list) + Decimal(deliveryCost)
